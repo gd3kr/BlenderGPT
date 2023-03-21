@@ -28,5 +28,4 @@ This Blender extension allows you to generate Blender Python code by providing a
 
 ## Limitations
 
-- The generated code might not always be correct. In that case, run it again lol.
-- Some tasks might not be supported or might require additional input from the user
+- The generated code might not always be correct. In that case, run it again lmao.
