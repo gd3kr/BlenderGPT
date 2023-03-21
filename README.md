@@ -6,8 +6,7 @@
 
 This extension allows you to use Blender with natural language commands using OpenAI's GPT-4
 
-![GPT-4 X Blender](https://i.imgur.com/yCNR3IO.gif)
-
+![GPT-4 X Blender](https://i.imgur.com/ds9maof.gif)
 
 
 
