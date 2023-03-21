@@ -10,7 +10,7 @@ This Blender extension allows you to generate Blender Python code by providing a
 
 ## Installation
 
-1. Download this repository as a ZIP file
+1. Download the latest release from GitHub
 2. Open Blender, go to `Edit > Preferences > Add-ons > Install`
 3. Select the downloaded ZIP file and click `Install Add-on`
 4. Enable the add-on by checking the checkbox next to `GPT-4 Blender Assistant`
