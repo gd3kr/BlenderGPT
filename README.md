@@ -1,4 +1,4 @@
-# GPT-4 Blender Assistant
+# GPT-4 X Blender
 
 This Blender extension allows you to generate Blender Python code by providing a natural language command. The extension utilizes OpenAI's GPT-4 model to generate the code and perform various tasks within Blender.
 
