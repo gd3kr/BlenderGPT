@@ -1,6 +1,17 @@
 # GPT-4 X Blender
 
-This Blender extension allows you to generate Blender Python code by providing a natural language command. The extension utilizes OpenAI's GPT-4 model to generate the code and perform various tasks within Blender.
+
+<a href="https://www.buymeacoffee.com/gd3kr" target="_blank"><img src="https://cdn.buymeacoffee.com/buttons/default-orange.png" alt="Buy Me A Coffee" height="41" width="174"></a>
+
+
+This extension allows you to use Blender with natural language commands using OpenAI's GPT-4
+
+![GPT-4 X Blender](https://i.imgur.com/yCNR3IO.gif)
+
+
+
+
+
 
 ## Features
 
