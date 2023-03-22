@@ -1,6 +1,7 @@
 import sys
 import os
 import bpy
+import re
 
 bl_info = {
     "name": "GPT-4 Blender Assistant",
@@ -15,13 +16,40 @@ bl_info = {
     "tracker_url": "",
 }
 
+system_prompt = """You are an assistant made for the purposes of helping the user with Blender, the 3D software. 
+- Respond with your answers in markdown (```). 
+- Preferably import entire modules instead of bits. 
+- Do not perform destructive operations on the meshes. 
+- Do not use cap_ends. Do not do more than what is asked (setting up render settings, adding cameras, etc)
+- Do not respond with anything that is not Python code.
+
+Example:
+
+user: create 10 cubes in random locations from -10 to 10
+assistant:
+```
+import bpy
+from random import randint
+bpy.ops.mesh.primitive_cube_add()
+
+#how many cubes you want to add
+count = 10
+
+for c in range(0,count):
+    x = randint(-10,10)
+    y = randint(-10,10)
+    z = randint(-10,10)
+    bpy.ops.mesh.primitive_cube_add(location=(x,y,z))
+```"""
+
 
 # Add the 'libs' folder to the Python path
 libs_path = os.path.join(os.path.dirname(os.path.realpath(__file__)), "lib")
 if libs_path not in sys.path:
     sys.path.append(libs_path)
 
-print (libs_path)
+
+
 import openai
 
 def get_api_key(context):
@@ -54,24 +82,24 @@ def generate_blender_code(prompt):
             model="gpt-4",
             messages=[{
                 "role": "system",
-                "content": "You are a assistant made for the purposes of helping the user with Blender, the 3D software. Reply only with the code, without markdown, preferably import entire modules instead of bits. do not perform destructive operations on the meshes. Do not use cap_ends. Do not do more than what is asked (setting up render settings, adding cameras, etc)"
+                "content": system_prompt
             },
-                {"role": "user", "content": "Hey, can you please create Blender code for me that accomplishes the following task: " + prompt + "? \n" + "code:\n"}
+                {"role": "user", "content": "Can you please write Blender code for me that accomplishes the following task: " + prompt + "? \n. Do not respond with anything that is not Python code. Do not provide explanations"}
             ],
             stream=True,
-            max_tokens=1000,
+            max_tokens=1500,
         )
     except Exception as e: # Use GPT-3.5 if GPT-4 is not available
         response = openai.ChatCompletion.create(
             model="gpt-3.5-turbo",
             messages=[{
                 "role": "system",
-                "content": "You are a assistant made for the purposes of helping the user with Blender, the 3D software. Reply only with the code, without markdown, preferably import entire modules instead of bits. do not perform destructive operations on the meshes. Do not use cap_ends. Do not do more than what is asked (setting up render settings, adding cameras, etc)"
+                "content": system_prompt
             },
-                {"role": "user", "content": "Hey, can you please create Blender code for me that accomplishes the following task: " + prompt + "? \n" + "code:\n"}
+                {"role": "user", "content": "Can you please write Blender code for me that accomplishes the following task: " + prompt + "?\nDo not respond with anything that is not Python code. Do not provide explanations"}
             ],
             stream=True,
-            max_tokens=1000,
+            max_tokens=1500,
         )
 
     try:
@@ -86,12 +114,13 @@ def generate_blender_code(prompt):
                 # skip
                 continue
             collected_events.append(event)  # save the event response
-            # extract the text
             event_text = event['choices'][0]['delta']['content']
             completion_text += event_text  # append the text
-            # clear print screen
             print(completion_text, flush=True, end='\r')
-            # print the text
+        completion_text = re.findall(r'```(.*?)```', completion_text, re.DOTALL)[0]
+        # remove "python" if the first line has it
+        completion_text = re.sub(r'^python', '', completion_text, flags=re.MULTILINE)
+        
         return completion_text
     except IndexError:
         return None
