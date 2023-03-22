@@ -2,16 +2,6 @@ import sys
 import os
 import bpy
 
-# Add the 'libs' folder to the Python path
-libs_path = os.path.join(os.path.dirname(os.path.realpath(__file__)), "lib")
-if libs_path not in sys.path:
-    sys.path.append(libs_path)
-
-print (libs_path)
-import openai
-
-openai.api_key = os.getenv("OPENAI_API_KEY")
-
 bl_info = {
     "name": "GPT-4 Blender Assistant",
     "blender": (2, 82, 0),
@@ -24,6 +14,20 @@ bl_info = {
     "wiki_url": "",
     "tracker_url": "",
 }
+
+
+# Add the 'libs' folder to the Python path
+libs_path = os.path.join(os.path.dirname(os.path.realpath(__file__)), "lib")
+if libs_path not in sys.path:
+    sys.path.append(libs_path)
+
+print (libs_path)
+import openai
+
+def get_api_key(context):
+    preferences = context.preferences
+    addon_prefs = preferences.addons[__name__].preferences
+    return addon_prefs.api_key
 
 
 def init_props():
@@ -42,6 +46,8 @@ def clear_props():
 
 
 def generate_blender_code(prompt):
+
+
 
     try:
         response = openai.ChatCompletion.create(
@@ -74,11 +80,9 @@ def generate_blender_code(prompt):
         completion_text = ''
         # iterate through the stream of events
         for event in response:
-            # check if role key is present in event['choices'][0]['delta']
             if 'role' in event['choices'][0]['delta']:
                 # skip
                 continue
-            # check if length of event['choices'][0]['delta']['content'] is 0
             if len(event['choices'][0]['delta']) == 0:
                 # skip
                 continue
@@ -130,6 +134,12 @@ class GPT4_OT_Execute(bpy.types.Operator):
     )
 
     def execute(self, context):
+        openai.api_key = get_api_key(context)
+
+        if not openai.api_key:
+            self.report({'ERROR'}, "No API key detected. Please set the API key in the addon preferences.")
+            return {'CANCELLED'}
+
         context.scene.gpt4_button_pressed = True
         bpy.ops.wm.redraw_timer(type='DRAW_WIN_SWAP', iterations=1)
         
@@ -156,8 +166,22 @@ class GPT4_OT_Execute(bpy.types.Operator):
 def menu_func(self, context):
     self.layout.operator(GPT4_OT_Execute.bl_idname)
 
+class GPT4AddonPreferences(bpy.types.AddonPreferences):
+    bl_idname = __name__
+
+    api_key: bpy.props.StringProperty(
+        name="API Key",
+        description="Enter your OpenAI API Key",
+        default="",
+        subtype="PASSWORD",
+    )
+
+    def draw(self, context):
+        layout = self.layout
+        layout.prop(self, "api_key")
 
 def register():
+    bpy.utils.register_class(GPT4AddonPreferences)
     bpy.utils.register_class(GPT4_OT_Execute)
     bpy.utils.register_class(GPT4_PT_Panel)
     bpy.types.VIEW3D_MT_mesh_add.append(menu_func)
@@ -165,6 +189,7 @@ def register():
 
 
 def unregister():
+    bpy.utils.unregister_class(GPT4AddonPreferences)
     bpy.utils.unregister_class(GPT4_OT_Execute)
     bpy.utils.unregister_class(GPT4_PT_Panel)
     bpy.types.VIEW3D_MT_mesh_add.remove(menu_func)
