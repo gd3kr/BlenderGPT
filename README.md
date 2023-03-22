@@ -16,7 +16,7 @@ This extension allows you to use Blender with natural language commands using Op
 
 - Generate Blender Python code from natural language commands
 - Integrated with Blender's UI for easy usage
-- Supports Blender version 2.82.0 and above
+- Supports Blender version 3.0.0 and above
 
 ## Installation
 
@@ -34,8 +34,8 @@ This extension allows you to use Blender with natural language commands using Op
 
 ## Requirements
 
-- Blender 2.82.0 or later
-- OpenAI API key (set as an environment variable `OPENAI_API_KEY`)
+- Blender 3.0.0 or later
+- OpenAI API key
 
 ## Limitations
 
