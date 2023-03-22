@@ -73,7 +73,6 @@ def generate_blender_code(prompt):
             stream=True,
             max_tokens=1000,
         )
-        return None
 
     try:
         collected_events = []
