@@ -247,14 +247,13 @@ class GPT4_OT_Execute(bpy.types.Operator):
             message = context.scene.gpt4_chat_history.add()
             message.type = 'assistant'
             message.content = blender_code
-            try:
-                exec(blender_code)
-            except Exception as e:
-                self.report({'ERROR'}, f"Error executing generated code: {e}")
-                context.scene.gpt4_button_pressed = False
-                return {'CANCELLED'}
-        else:
-            self.report({'ERROR'}, "Failed to generate Blender Python code")
+
+            global_namespace = globals().copy()
+    
+        try:
+            exec(blender_code, global_namespace)
+        except Exception as e:
+            self.report({'ERROR'}, f"Error executing generated code: {e}")
             context.scene.gpt4_button_pressed = False
             return {'CANCELLED'}
 
