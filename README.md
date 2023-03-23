@@ -1,15 +1,12 @@
-# GPT-4 X Blender
+# BlenderGPT
+![Artboard 1](https://user-images.githubusercontent.com/63528145/227158196-af5f6ce5-d044-445d-b100-2ad004453354.png)
+
 
 
 <a href="https://www.buymeacoffee.com/gd3kr" target="_blank"><img src="https://cdn.buymeacoffee.com/buttons/default-orange.png" alt="Buy Me A Coffee" height="41" width="174"></a>
 
 
 This extension allows you to use Blender with natural language commands using OpenAI's GPT-4
-
-![GPT-4 X Blender](https://i.imgur.com/ds9maof.gif)
-
-
-
 
 
 ## Features
@@ -37,6 +34,9 @@ This extension allows you to use Blender with natural language commands using Op
 
 - Blender 3.0.0 or later
 - OpenAI API key
+
+## Demonstration
+https://user-images.githubusercontent.com/63528145/227158577-d92c6e8d-df21-4461-a69b-9e7cde8c8dcf.mov
 
 ## Limitations
 
