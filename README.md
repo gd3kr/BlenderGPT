@@ -25,6 +25,7 @@ This extension allows you to use Blender with natural language commands using Op
 3. Select the downloaded ZIP file and click `Install Add-on`
 4. Enable the add-on by checking the checkbox next to `GPT-4 Blender Assistant`
 5. Paste your OpenAI API key in the Addon preferences menu.
+5. To view the code generations in realtime, go to `Window > Toggle System Console`
 
 ## Usage
 
