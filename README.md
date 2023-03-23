@@ -20,7 +20,7 @@ This extension allows you to use Blender with natural language commands using Op
 
 ## Installation
 
-1. Download the latest release from GitHub
+1. Clone this repository by clicking `Code > Download ZIP` on GitHub
 2. Open Blender, go to `Edit > Preferences > Add-ons > Install`
 3. Select the downloaded ZIP file and click `Install Add-on`
 4. Enable the add-on by checking the checkbox next to `GPT-4 Blender Assistant`
