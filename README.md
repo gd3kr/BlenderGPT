@@ -1,5 +1,5 @@
 # BlenderGPT
-![Artboard 1](https://user-images.githubusercontent.com/63528145/227158196-af5f6ce5-d044-445d-b100-2ad004453354.png)
+![Header](https://user-images.githubusercontent.com/63528145/227160213-6862cd5e-b31f-43ea-a5e5-6cc340a95617.png)
 
 
 
