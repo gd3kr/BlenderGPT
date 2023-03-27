@@ -3,7 +3,7 @@ import os
 import bpy
 import bpy.props
 import re
-
+import openai
 bl_info = {
     "name": "GPT-4 Blender Assistant",
     "blender": (2, 82, 0),
@@ -51,8 +51,6 @@ if libs_path not in sys.path:
 
 
 
-import openai
-
 def get_api_key(context):
     preferences = context.preferences
     addon_prefs = preferences.addons[__name__].preferences
@@ -61,6 +59,15 @@ def get_api_key(context):
 
 def init_props():
     bpy.types.Scene.gpt4_chat_history = bpy.props.CollectionProperty(type=bpy.types.PropertyGroup)
+    bpy.types.Scene.gpt4_model = bpy.props.EnumProperty(
+    name="GPT Model",
+    description="Select the GPT model to use",
+    items=[
+        ("gpt-4", "GPT-4", "Use GPT-4"),
+        ("gpt-3.5-turbo", "GPT-3.5 Turbo", "Use GPT-3.5 Turbo"),
+    ],
+    default="gpt-4",
+)
     bpy.types.Scene.gpt4_chat_input = bpy.props.StringProperty(
         name="Message",
         description="Enter your message",
@@ -75,7 +82,7 @@ def clear_props():
     del bpy.types.Scene.gpt4_chat_input
     del bpy.types.Scene.gpt4_button_pressed
 
-def generate_blender_code(prompt, chat_history):
+def generate_blender_code(prompt, chat_history, context):
     messages = [{"role": "system", "content": system_prompt}]
     for message in chat_history[-10:]:
         if message.type == "assistant":
@@ -87,20 +94,12 @@ def generate_blender_code(prompt, chat_history):
     messages.append({"role": "user", "content": "Can you please write Blender code for me that accomplishes the following task: " + prompt + "? \n. Do not respond with anything that is not Python code. Do not provide explanations"})
 
 
-    try:
-        response = openai.ChatCompletion.create(
-            model="gpt-4",
-            messages=messages,
-            stream=True,
-            max_tokens=1500,
-        )
-    except Exception as e: # Use GPT-3.5 if GPT-4 is not available
-        response = openai.ChatCompletion.create(
-            model="gpt-3.5-turbo",
-            messages=messages,
-            stream=True,
-            max_tokens=1500,
-        )
+    response = openai.ChatCompletion.create(
+        model=context.scene.gpt4_model,
+        messages=messages,
+        stream=True,
+        max_tokens=1500,
+    )
 
     try:
         collected_events = []
@@ -193,6 +192,9 @@ class GPT4_PT_Panel(bpy.types.Panel):
                 box.label(text=f"User: {message.content}")
 
         column.separator()
+        
+        column.label(text="GPT Model:")
+        column.prop(context.scene, "gpt4_model", text="")
 
         column.label(text="Enter your message:")
         column.prop(context.scene, "gpt4_chat_input", text="")
@@ -225,6 +227,9 @@ class GPT4_OT_Execute(bpy.types.Operator):
 
     def execute(self, context):
         openai.api_key = get_api_key(context)
+        # if null then set to env key
+        if not openai.api_key:
+            openai.api_key = os.getenv("OPENAI_API_KEY")
 
         if not openai.api_key:
             self.report({'ERROR'}, "No API key detected. Please set the API key in the addon preferences.")
@@ -233,7 +238,7 @@ class GPT4_OT_Execute(bpy.types.Operator):
         context.scene.gpt4_button_pressed = True
         bpy.ops.wm.redraw_timer(type='DRAW_WIN_SWAP', iterations=1)
         
-        blender_code = generate_blender_code(context.scene.gpt4_chat_input, context.scene.gpt4_chat_history)
+        blender_code = generate_blender_code(context.scene.gpt4_chat_input, context.scene.gpt4_chat_history, context)
 
         message = context.scene.gpt4_chat_history.add()
         message.type = 'user'
