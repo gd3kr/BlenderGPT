@@ -135,6 +135,16 @@ def split_area_to_text_editor(context):
     new_area.type = 'TEXT_EDITOR'
     return new_area
 
+class GPT4_OT_DeleteMessage(bpy.types.Operator):
+    bl_idname = "gpt4.delete_message"
+    bl_label = "Delete Message"
+    bl_options = {'REGISTER', 'UNDO'}
+
+    message_index: bpy.props.IntProperty()
+
+    def execute(self, context):
+        context.scene.gpt4_chat_history.remove(self.message_index)
+        return {'FINISHED'}
 
 class GPT4_OT_ShowCode(bpy.types.Operator):
     bl_idname = "gpt4.show_code"
@@ -182,14 +192,19 @@ class GPT4_PT_Panel(bpy.types.Panel):
 
         column.label(text="Chat history:")
         box = column.box()
-        for message in context.scene.gpt4_chat_history:
+        for index, message in enumerate(context.scene.gpt4_chat_history):
             if message.type == 'assistant':
                 row = box.row()
                 row.label(text="Assistant: ")
                 show_code_op = row.operator("gpt4.show_code", text="Show Code")
                 show_code_op.code = message.content
+                delete_message_op = row.operator("gpt4.delete_message", text="", icon="TRASH", emboss=False)
+                delete_message_op.message_index = index
             else:
-                box.label(text=f"User: {message.content}")
+                row = box.row()
+                row.label(text=f"User: {message.content}")
+                delete_message_op = row.operator("gpt4.delete_message", text="", icon="TRASH", emboss=False)
+                delete_message_op.message_index = index
 
         column.separator()
         
@@ -291,6 +306,8 @@ def register():
     bpy.utils.register_class(GPT4_PT_Panel)
     bpy.utils.register_class(GPT4_OT_ClearChat)
     bpy.utils.register_class(GPT4_OT_ShowCode)
+    bpy.utils.register_class(GPT4_OT_DeleteMessage)
+
 
     bpy.types.VIEW3D_MT_mesh_add.append(menu_func)
     init_props()
@@ -302,6 +319,7 @@ def unregister():
     bpy.utils.unregister_class(GPT4_PT_Panel)
     bpy.utils.unregister_class(GPT4_OT_ClearChat)
     bpy.utils.register_class(GPT4_OT_ShowCode)
+    bpy.utils.register_class(GPT4_OT_DeleteMessage)
 
     bpy.types.VIEW3D_MT_mesh_add.remove(menu_func)
     clear_props()
