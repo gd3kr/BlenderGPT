@@ -3,6 +3,12 @@ import os
 import bpy
 import bpy.props
 import re
+
+# Add the 'libs' folder to the Python path
+libs_path = os.path.join(os.path.dirname(os.path.realpath(__file__)), "lib")
+if libs_path not in sys.path:
+    sys.path.append(libs_path)
+
 import openai
 
 from .utilities import *
@@ -44,12 +50,6 @@ for c in range(0,count):
     z = random.randint(-10,10)
     bpy.ops.mesh.primitive_cube_add(location=(x,y,z))
 ```"""
-
-
-# Add the 'libs' folder to the Python path
-libs_path = os.path.join(os.path.dirname(os.path.realpath(__file__)), "lib")
-if libs_path not in sys.path:
-    sys.path.append(libs_path)
 
 
 
