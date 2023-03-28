@@ -6,8 +6,9 @@
 <a href="https://www.buymeacoffee.com/gd3kr" target="_blank"><img src="https://cdn.buymeacoffee.com/buttons/default-orange.png" alt="Buy Me A Coffee" height="41" width="174"></a>
 
 
-This extension allows you to use Blender with natural language commands using OpenAI's GPT-4
+This addon allows you to use Blender with natural language commands using OpenAI's GPT-3.5/GPT-4
 
+## 💡 Code generations by the more powerful model, GPT-4 are remarkably higher quality than GPT-3.5. Unfortunately, the model is only available via the waitlist. This addon also has a Pro version that is powered by GPT-4 and does not require you to have an OpenAI account. It is available for purchase for a one-time charge of $29.99: https://gd3kr.gumroad.com/l/blendergptpro
 
 ## Features
 
