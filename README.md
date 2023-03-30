@@ -35,7 +35,7 @@ This addon allows you to use Blender with natural language commands using OpenAI
 
 ## Requirements
 
-- Blender 3.0.0 or later
+- Blender 3.1 or later
 - OpenAI API key
 
 ## Demonstration
