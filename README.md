@@ -16,7 +16,7 @@ This addon allows you to use Blender with natural language commands using OpenAI
 
 - Generate Blender Python code from natural language commands
 - Integrated with Blender's UI for easy usage
-- Supports Blender version 3.0.0 and above
+- Supports Blender version 3.1 and above
 
 ## Installation
 
