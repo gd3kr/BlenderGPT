@@ -236,8 +236,8 @@ def unregister():
     bpy.utils.unregister_class(GPT4_OT_Execute)
     bpy.utils.unregister_class(GPT4_PT_Panel)
     bpy.utils.unregister_class(GPT4_OT_ClearChat)
-    bpy.utils.register_class(GPT4_OT_ShowCode)
-    bpy.utils.register_class(GPT4_OT_DeleteMessage)
+    bpy.utils.unregister_class(GPT4_OT_ShowCode)
+    bpy.utils.unegister_class(GPT4_OT_DeleteMessage)
 
     bpy.types.VIEW3D_MT_mesh_add.remove(menu_func)
     clear_props()
