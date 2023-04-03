@@ -9,9 +9,6 @@
 This addon allows you to use Blender with natural language commands using OpenAI's GPT-3.5/GPT-4
 
 
-### 💡 Code generations by the more powerful model, GPT-4 are remarkably higher quality than GPT-3.5. Unfortunately, the model is only available via the waitlist. This addon also has a Pro version that is powered by GPT-4 and does not require you to have an OpenAI account. Available for purchase for a one-time charge of $29.99: https://gd3kr.gumroad.com/l/blendergptpro
-> <img src="https://user-images.githubusercontent.com/63528145/228332238-fcaaa78a-bc0d-4866-903c-848c826c0241.png" alt="blendergptprologo" width="200"/>
-
 ## Features
 
 - Generate Blender Python code from natural language commands
