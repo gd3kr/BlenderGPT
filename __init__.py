@@ -13,7 +13,7 @@ import openai
 
 from .utilities import *
 bl_info = {
-    "name": "GPT-4 Blender Assistant",
+    "name": "PBL mini project",
     "blender": (2, 82, 0),
     "category": "Object",
     "author": "Aarya (@gd3kr)",
@@ -98,7 +98,7 @@ class GPT4_OT_ShowCode(bpy.types.Operator):
         return {'FINISHED'}
 
 class GPT4_PT_Panel(bpy.types.Panel):
-    bl_label = "GPT-4 Blender Assistant"
+    bl_label = "PBL mini project"
     bl_idname = "GPT4_PT_Panel"
     bl_space_type = 'VIEW_3D'
     bl_region_type = 'UI'
@@ -129,7 +129,7 @@ class GPT4_PT_Panel(bpy.types.Panel):
         column.label(text="GPT Model:")
         column.prop(context.scene, "gpt4_model", text="")
 
-        column.label(text="Enter your message:")
+        column.label(text="Give me Command:")
         column.prop(context.scene, "gpt4_chat_input", text="")
         button_label = "Please wait...(this might take some time)" if context.scene.gpt4_button_pressed else "Execute"
         row = column.row(align=True)
@@ -137,6 +137,23 @@ class GPT4_PT_Panel(bpy.types.Panel):
         row.operator("gpt4.clear_chat", text="Clear Chat")
 
         column.separator()
+
+class GPT4Panel(bpy.types.Panel):
+    bl_label = "GPT-4"
+    bl_idname = "OBJECT_PT_gpt4"
+    bl_space_type = "VIEW_3D"
+    bl_region_type = "UI"
+    bl_category = "Tools"
+
+    def draw(self, context):
+        layout = self.layout
+        scene = context.scene
+
+        # ...
+
+        # Add a button to clear the chat history
+        layout.operator("object.clear_chat_history")
+
 
 class GPT4_OT_ClearChat(bpy.types.Operator):
     bl_idname = "gpt4.clear_chat"
@@ -146,6 +163,15 @@ class GPT4_OT_ClearChat(bpy.types.Operator):
     def execute(self, context):
         context.scene.gpt4_chat_history.clear()
         return {'FINISHED'}
+
+class ClearChatHistoryOperator(bpy.types.Operator):
+    bl_idname = "object.clear_chat_history"
+    bl_label = "Clear Chat History"
+
+    def execute(self, context):
+        clear_props()
+        return {'FINISHED'}
+
 
 class GPT4_OT_Execute(bpy.types.Operator):
     bl_idname = "gpt4.send_message"

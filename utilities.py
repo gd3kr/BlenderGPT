@@ -32,9 +32,11 @@ def init_props():
     bpy.types.PropertyGroup.content = bpy.props.StringProperty()
 
 def clear_props():
-    del bpy.types.Scene.gpt4_chat_history
-    del bpy.types.Scene.gpt4_chat_input
-    del bpy.types.Scene.gpt4_button_pressed
+    scene = bpy.context.scene
+    for item in scene.gpt4_chat_history:
+        scene.gpt4_chat_history.remove(item)
+    del scene.gpt4_chat_input
+    del scene.gpt4_button_pressed
 
 def generate_blender_code(prompt, chat_history, context, system_prompt):
     messages = [{"role": "system", "content": system_prompt}]
