@@ -1,7 +1,6 @@
 import sys
 import os
 import bpy
-import bpy.props
 import re
 
 # Add the 'libs' folder to the Python path
