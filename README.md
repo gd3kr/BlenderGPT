@@ -3,17 +3,17 @@
 
 
 
-<a href="https://www.buymeacoffee.com/gd3kr" target="_blank"><img src="https://cdn.buymeacoffee.com/buttons/default-orange.png" alt="Buy Me A Coffee" height="41" width="174"></a>
 
 
-This addon allows you to use Blender with natural language commands using OpenAI's GPT-3.5/GPT-4
+
+Blender can be controlled using program scripts written in Python. Recent Large Language Models like OpenAI's GPT-4 can generate these Python scripts from simple English and execute them. This plugin provides an easy to use interface that integrates OpenAI's GPT-4/GPT-3.5 right in the UI, allowing you to use natural language commands to control Blender.
+
+# Note
+
+Access to GPT-4 in this addon can ONLY be obtained through the OpenAI waitlist (https://openai.com/waitlist/gpt-4-api), which in turn grants your account access to this model via the API.
 
 
-## Features
-
-- Generate Blender Python code from natural language commands
-- Integrated with Blender's UI for easy usage
-- Supports Blender version 3.1 and above
+**GPT-4 access via the API is different from GPT-4 access via ChatGPT-Plus ($20/month subscription). This addon will only work with GPT-4 if you have been accepted into the waitlist (https://openai.com/waitlist/gpt-4-api) and have access to the API via your OpenAI API key**
 
 ## Installation
 
@@ -30,14 +30,12 @@ This addon allows you to use Blender with natural language commands using OpenAI
 2. Type a natural language command in the input field, e.g., "create a cube at the origin"
 3. Click the `Execute` button to generate and execute the Blender Python code
 
+
 ## Requirements
 
 - Blender 3.1 or later
-- OpenAI API key
+- OpenAI API key (Accessible at https://platform.openai.com/account/api-keys)
+
 
 ## Demonstration
 https://user-images.githubusercontent.com/63528145/227158577-d92c6e8d-df21-4461-a69b-9e7cde8c8dcf.mov
-
-## Limitations
-
-- The generated code might not always be correct. In that case, run it again lmao.
